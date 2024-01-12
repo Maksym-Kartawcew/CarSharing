@@ -6,22 +6,17 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CustomFilterProps } from "@/types";
 import { UpdateSearchParams } from "@/utilities";
 
-const CustomFilter = ({ title, options }: CustomFilterProps) => {
+const CustomFilter = ({ title, options, setFilter }: CustomFilterProps) => {
   const [selected, setSelected] = useState(options[0]);
   const router = useRouter();
-
-  const handleUpdateParams = (e: { type: string; value: string }) => {
-    const newPathName = UpdateSearchParams(title, e.value.toLowerCase());
-
-    router.push(newPathName);
-  };
 
   return (
     <div className="w-fit">
       <Listbox
         value={selected}
-        onChange={(e) => {
-          setSelected(e), handleUpdateParams(e);
+        onChange={(option) => {
+          setSelected(option); 
+          setFilter(option.value);
         }}
       >
         <div className="relative w-fit z-5">
