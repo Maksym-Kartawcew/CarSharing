@@ -1,5 +1,11 @@
 import { fetchCars } from "@/utilities";
-import { Hero, SearchBar, CustomFilter, CarCard } from "../components/index";
+import {
+  Hero,
+  SearchBar,
+  CustomFilter,
+  CarCard,
+  ShowMore,
+} from "../components/index";
 import { fuels, yearsOfProduction } from "@/constants";
 
 export default async function Home({ searchParams }) {
@@ -7,7 +13,7 @@ export default async function Home({ searchParams }) {
     manufacturer: searchParams.manufacturer || "",
     year: searchParams.year || 2022,
     fuel: searchParams.fuel || "",
-    limit: searchParams.limit || 16,
+    limit: searchParams.limit || 12,
     model: searchParams.model || "",
   });
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
@@ -35,10 +41,17 @@ export default async function Home({ searchParams }) {
                 <CarCard car={car} />
               ))}
             </div>
+
+            <ShowMore
+              pageNumber={(searchParams.limit || 12) / 12}
+              isNext={(searchParams.limit || 12) > allCars.length}
+            />
           </section>
         ) : (
-          <div>
-            <h2>Opps, no cars founded</h2>
+          <div className="flex mt-10 mb-10 items-center justify-center">
+            <h2 className="text-black font-semibold text-[25px]">
+              Opps, no cars founded ...
+            </h2>
             <p>{allCars?.message}</p>
           </div>
         )}
